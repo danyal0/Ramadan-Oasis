@@ -34,8 +34,14 @@ const audiencePoints = [
 export default async function HomePage() {
   const photos = await getPhotoManifest();
   const openingPhoto = pickSectionPhoto(photos, "home-opening");
-  const openingSliderPhotos = getEligiblePhotos(photos, "home-opening-slider");
-  const offeringSliderPhotos = getEligiblePhotos(photos, "home-offering-slider");
+  const openingSliderPhotos = getEligiblePhotos(photos, "home-opening-slider", {
+    targetAspectRatio: 16 / 9,
+    subjectPreference: ["nature", "sky", "water", "texture"],
+  });
+  const offeringSliderPhotos = getEligiblePhotos(photos, "home-offering-slider", {
+    targetAspectRatio: 4 / 3,
+    subjectPreference: ["architecture", "nature", "texture"],
+  });
 
   return (
     <PaletteProvider imageSrc={openingPhoto?.src}>

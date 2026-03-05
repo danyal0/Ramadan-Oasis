@@ -44,11 +44,13 @@ function hslToCss(h: number, s: number, l: number) {
 type Palette = {
   bgStart: string;
   bgEnd: string;
+  glow: string;
   surface: string;
   border: string;
   ink: string;
   muted: string;
   accent: string;
+  accentSoft: string;
 };
 
 export function createAccessiblePalette(primary: RGB, secondary: RGB): Palette {
@@ -56,16 +58,18 @@ export function createAccessiblePalette(primary: RGB, secondary: RGB): Palette {
   const s = rgbToHsl(secondary);
 
   const hue = (p.h * 0.72 + s.h * 0.28) % 360;
-  const lowSat = clamp((p.s + s.s) / 2, 10, 28);
+  const midSat = clamp((p.s + s.s) / 2, 16, 42);
 
   return {
-    bgStart: hslToCss(hue, lowSat - 4, 94),
-    bgEnd: hslToCss((hue + 8) % 360, lowSat, 89),
-    surface: hslToCss(hue, lowSat - 6, 97),
-    border: hslToCss(hue, lowSat + 2, 78),
-    ink: hslToCss((hue + 12) % 360, lowSat + 8, 16),
-    muted: hslToCss((hue + 8) % 360, lowSat + 4, 34),
-    accent: hslToCss((hue + 20) % 360, lowSat + 10, 28),
+    bgStart: hslToCss(hue, midSat - 3, 93),
+    bgEnd: hslToCss((hue + 10) % 360, midSat + 2, 84),
+    glow: hslToCss((hue + 26) % 360, midSat + 8, 76),
+    surface: hslToCss(hue, midSat - 9, 96),
+    border: hslToCss(hue, midSat + 3, 72),
+    ink: hslToCss((hue + 16) % 360, midSat + 9, 15),
+    muted: hslToCss((hue + 10) % 360, midSat + 2, 31),
+    accent: hslToCss((hue + 24) % 360, midSat + 12, 30),
+    accentSoft: hslToCss((hue + 22) % 360, midSat + 6, 58),
   };
 }
 

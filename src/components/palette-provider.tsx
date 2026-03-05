@@ -68,6 +68,8 @@ export function PaletteProvider({ imageSrc, children }: PaletteProviderProps) {
       ["--ink" as string]: fallback.ink,
       ["--muted" as string]: fallback.muted,
       ["--accent" as string]: fallback.accent,
+      ["--glow" as string]: fallback.glow,
+      ["--accent-soft" as string]: fallback.accentSoft,
     };
   });
 
@@ -85,6 +87,8 @@ export function PaletteProvider({ imageSrc, children }: PaletteProviderProps) {
         ["--ink" as string]: palette.ink,
         ["--muted" as string]: palette.muted,
         ["--accent" as string]: palette.accent,
+        ["--glow" as string]: palette.glow,
+        ["--accent-soft" as string]: palette.accentSoft,
       });
     });
     return () => {
@@ -93,7 +97,8 @@ export function PaletteProvider({ imageSrc, children }: PaletteProviderProps) {
   }, [imageSrc]);
 
   const className = useMemo(
-    () => "min-h-screen bg-[linear-gradient(180deg,var(--bg-start),var(--bg-end))] text-[var(--ink)] transition-colors duration-[1600ms]",
+    () =>
+      "min-h-screen bg-[radial-gradient(1000px_420px_at_18%_-12%,var(--glow),transparent_62%),radial-gradient(780px_300px_at_82%_0%,color-mix(in_oklch,var(--accent-soft)_38%,transparent),transparent_74%),linear-gradient(180deg,var(--bg-start),var(--bg-end))] text-[var(--ink)] transition-colors duration-[1600ms]",
     [],
   );
 

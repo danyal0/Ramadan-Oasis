@@ -27,8 +27,14 @@ const outcomes = [
 export default async function RamadanOasisPage() {
   const photos = await getPhotoManifest();
   const heroPhoto = pickSectionPhoto(photos, "ramadan-hero");
-  const heroSliderPhotos = getEligiblePhotos(photos, "ramadan-hero-slider");
-  const bodySliderPhotos = getEligiblePhotos(photos, "ramadan-body-slider");
+  const heroSliderPhotos = getEligiblePhotos(photos, "ramadan-hero-slider", {
+    targetAspectRatio: 16 / 9,
+    subjectPreference: ["sky", "nature", "water", "texture"],
+  });
+  const bodySliderPhotos = getEligiblePhotos(photos, "ramadan-body-slider", {
+    targetAspectRatio: 4 / 3,
+    subjectPreference: ["architecture", "texture", "nature"],
+  });
 
   return (
     <PaletteProvider imageSrc={heroPhoto?.src}>

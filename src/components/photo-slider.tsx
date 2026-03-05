@@ -32,6 +32,8 @@ export function PhotoSlider({
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
   const [direction, setDirection] = useState<1 | -1>(1);
   const [transition, setTransition] = useState<TransitionName>("dissolve");
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchCurrentX, setTouchCurrentX] = useState<number | null>(null);
 
   const stepTo = useCallback(
     (step: 1 | -1) => {
@@ -59,6 +61,8 @@ export function PhotoSlider({
 
   const currentPhoto = photos[currentIndex] ?? null;
   const previousPhoto = prevIndex !== null ? photos[prevIndex] : null;
+  const swipeDistance =
+    touchStartX !== null && touchCurrentX !== null ? touchCurrentX - touchStartX : 0;
 
   const animation = useMemo(() => {
     if (transition === "veil") {
@@ -88,7 +92,7 @@ export function PhotoSlider({
 
   const containerClass = useMemo(
     () =>
-      `relative h-56 w-full overflow-hidden rounded-[1.75rem] border border-[var(--border)] md:h-72 ${className ?? ""}`,
+      `relative h-56 w-full overflow-hidden rounded-[1.75rem] border border-[var(--border)] [touch-action:pan-y] md:h-72 ${className ?? ""}`,
     [className],
   );
 
@@ -102,10 +106,40 @@ export function PhotoSlider({
   }
 
   return (
-    <div className={containerClass}>
+    <div
+      className={containerClass}
+      onTouchStart={(event) => {
+        const point = event.touches[0];
+        setTouchStartX(point?.clientX ?? null);
+        setTouchCurrentX(point?.clientX ?? null);
+      }}
+      onTouchMove={(event) => {
+        const point = event.touches[0];
+        setTouchCurrentX(point?.clientX ?? null);
+      }}
+      onTouchEnd={() => {
+        if (Math.abs(swipeDistance) >= 42) {
+          if (swipeDistance < 0) stepTo(1);
+          if (swipeDistance > 0) stepTo(-1);
+        }
+        setTouchStartX(null);
+        setTouchCurrentX(null);
+      }}
+      onTouchCancel={() => {
+        setTouchStartX(null);
+        setTouchCurrentX(null);
+      }}
+    >
       {previousPhoto ? (
         <div key={`prev-${previousPhoto.src}`} className={`absolute inset-0 ${animation.outgoing}`}>
-          <Image src={previousPhoto.src} alt={alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 900px" />
+          <Image
+            src={previousPhoto.src}
+            alt={alt}
+            fill
+            className="object-cover"
+            style={{ objectPosition: previousPhoto.objectPosition }}
+            sizes="(max-width: 768px) 100vw, 900px"
+          />
         </div>
       ) : null}
 
@@ -116,34 +150,39 @@ export function PhotoSlider({
           fill
           priority={priority}
           className="object-cover"
+          style={{ objectPosition: currentPhoto.objectPosition }}
           sizes="(max-width: 768px) 100vw, 900px"
         />
       </div>
 
       <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_25%,rgba(18,18,18,0.18)_100%)]" />
+      {touchStartX !== null && touchCurrentX !== null ? (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 left-0 w-1.5 rounded-r-full bg-white/55 transition-opacity"
+          style={{ opacity: Math.min(Math.abs(swipeDistance) / 120, 0.85) }}
+        />
+      ) : null}
       {photos.length > 1 ? (
-        <div className="absolute bottom-3 left-3 flex items-center gap-2">
+        <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2">
           <button
             type="button"
             onClick={() => stepTo(-1)}
             aria-label="Previous photo"
-            className="rounded-full border border-white/35 bg-black/25 px-3 py-1.5 text-xs text-white backdrop-blur-sm transition hover:bg-black/35"
+            className="grid h-9 w-9 place-items-center rounded-full border border-white/35 bg-black/24 text-xl leading-none text-white/92 backdrop-blur-sm transition hover:bg-black/36"
           >
-            Prev
+            &#8249;
           </button>
           <button
             type="button"
             onClick={() => stepTo(1)}
             aria-label="Next photo"
-            className="rounded-full border border-white/35 bg-black/25 px-3 py-1.5 text-xs text-white backdrop-blur-sm transition hover:bg-black/35"
+            className="grid h-9 w-9 place-items-center rounded-full border border-white/35 bg-black/24 text-xl leading-none text-white/92 backdrop-blur-sm transition hover:bg-black/36"
           >
-            Next
+            &#8250;
           </button>
         </div>
       ) : null}
-      <div className="absolute bottom-3 right-3 rounded-full border border-white/25 bg-black/20 px-2.5 py-1 text-xs text-white/90 backdrop-blur-sm">
-        {currentIndex + 1}/{photos.length}
-      </div>
     </div>
   );
 }

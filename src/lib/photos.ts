@@ -6,13 +6,30 @@ const PUBLIC_DIR = path.join(process.cwd(), "public");
 const PHOTOS_DIR = path.join(PUBLIC_DIR, "photos");
 const SUPPORTED_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
 const FACE_LIKELY_KEYWORDS = ["face", "portrait", "selfie", "person", "human"];
+const SUBJECT_HINTS = {
+  nature: ["nature", "tree", "forest", "leaf", "green", "garden", "field", "mountain", "flower"],
+  water: ["water", "ocean", "sea", "river", "lake", "wave"],
+  sky: ["sky", "cloud", "sunset", "sunrise", "dawn", "dusk"],
+  architecture: ["building", "window", "door", "arch", "stone", "mosque", "city", "street"],
+  texture: ["sand", "desert", "wall", "light", "shadow", "pattern", "abstract"],
+} as const;
+type SubjectTag = keyof typeof SUBJECT_HINTS;
 
 export type PhotoAsset = {
   src: string;
+  fileName: string;
   width: number;
   height: number;
+  aspectRatio: number;
   orientation: "landscape" | "portrait" | "square";
   faceLikely: boolean;
+  subjectTags: SubjectTag[];
+  objectPosition: string;
+};
+
+type EligibleOptions = {
+  targetAspectRatio?: number;
+  subjectPreference?: SubjectTag[];
 };
 
 async function listFilesRecursively(dir: string): Promise<string[]> {
@@ -38,6 +55,21 @@ function inferOrientation(width: number, height: number): PhotoAsset["orientatio
 function looksLikeFaceFilename(filePath: string) {
   const normalized = filePath.toLowerCase();
   return FACE_LIKELY_KEYWORDS.some((keyword) => normalized.includes(keyword));
+}
+
+function inferSubjectTags(fileName: string): SubjectTag[] {
+  const normalized = fileName.toLowerCase();
+  return (Object.keys(SUBJECT_HINTS) as SubjectTag[]).filter((subject) =>
+    SUBJECT_HINTS[subject].some((keyword) => normalized.includes(keyword)),
+  );
+}
+
+function inferObjectPosition(subjectTags: SubjectTag[], faceLikely: boolean) {
+  if (faceLikely) return "50% 28%";
+  if (subjectTags.includes("sky")) return "50% 30%";
+  if (subjectTags.includes("water")) return "50% 60%";
+  if (subjectTags.includes("texture")) return "50% 58%";
+  return "50% 50%";
 }
 
 function createSeed(input: string) {
@@ -71,12 +103,19 @@ export async function getPhotoManifest(): Promise<PhotoAsset[]> {
         if (!width || !height) return null;
 
         const src = `/${path.relative(PUBLIC_DIR, filePath).replaceAll("\\", "/")}`;
+        const fileName = path.basename(filePath).toLowerCase();
+        const subjectTags = inferSubjectTags(fileName);
+        const faceLikely = looksLikeFaceFilename(filePath);
         return {
           src,
+          fileName,
           width,
           height,
+          aspectRatio: width / height,
           orientation: inferOrientation(width, height),
-          faceLikely: looksLikeFaceFilename(filePath),
+          faceLikely,
+          subjectTags,
+          objectPosition: inferObjectPosition(subjectTags, faceLikely),
         } satisfies PhotoAsset;
       }),
     );
@@ -96,15 +135,25 @@ function scorePhoto(photo: PhotoAsset) {
   return score;
 }
 
-export function getEligiblePhotos(photos: PhotoAsset[], key: string): PhotoAsset[] {
+export function getEligiblePhotos(
+  photos: PhotoAsset[],
+  key: string,
+  options: EligibleOptions = {},
+): PhotoAsset[] {
   if (!photos.length) return [];
 
   const random = seededRandom(createSeed(key));
+  const targetAspectRatio = options.targetAspectRatio ?? 16 / 9;
+  const subjectPreference = options.subjectPreference ?? [];
 
   return photos
     .map((photo) => ({
       photo,
-      score: scorePhoto(photo) + random(),
+      score:
+        scorePhoto(photo) +
+        (2 - Math.min(Math.abs(photo.aspectRatio - targetAspectRatio), 2)) +
+        (subjectPreference.some((subject) => photo.subjectTags.includes(subject)) ? 1.5 : 0) +
+        random(),
     }))
     .sort((a, b) => b.score - a.score)
     .map((entry) => entry.photo);
