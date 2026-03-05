@@ -96,6 +96,20 @@ function scorePhoto(photo: PhotoAsset) {
   return score;
 }
 
+export function getEligiblePhotos(photos: PhotoAsset[], key: string): PhotoAsset[] {
+  if (!photos.length) return [];
+
+  const random = seededRandom(createSeed(key));
+
+  return photos
+    .map((photo) => ({
+      photo,
+      score: scorePhoto(photo) + random(),
+    }))
+    .sort((a, b) => b.score - a.score)
+    .map((entry) => entry.photo);
+}
+
 export function pickSectionPhoto(photos: PhotoAsset[], sectionKey: string): PhotoAsset | null {
   if (!photos.length) return null;
   const dateSeed = new Date().toISOString().slice(0, 10);

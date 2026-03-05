@@ -1,10 +1,10 @@
-import { AtmosphericImage } from "@/components/atmospheric-image";
 import { PageSection } from "@/components/page-section";
 import { PaletteProvider } from "@/components/palette-provider";
+import { PhotoSlider } from "@/components/photo-slider";
 import { RegistrationForm } from "@/components/registration-form";
 import { SiteFrame } from "@/components/site-frame";
 import { programOutline, ramadanSchedule } from "@/config/site";
-import { getPhotoManifest, pickSectionPhoto } from "@/lib/photos";
+import { getEligiblePhotos, getPhotoManifest, pickSectionPhoto } from "@/lib/photos";
 
 const whoItsFor = [
   "Those seeking a spiritually reverent space without pressure or performance.",
@@ -27,7 +27,8 @@ const outcomes = [
 export default async function RamadanOasisPage() {
   const photos = await getPhotoManifest();
   const heroPhoto = pickSectionPhoto(photos, "ramadan-hero");
-  const bodyPhoto = pickSectionPhoto(photos, "ramadan-body");
+  const heroSliderPhotos = getEligiblePhotos(photos, "ramadan-hero-slider");
+  const bodySliderPhotos = getEligiblePhotos(photos, "ramadan-body-slider");
 
   return (
     <PaletteProvider imageSrc={heroPhoto?.src}>
@@ -40,7 +41,7 @@ export default async function RamadanOasisPage() {
               In the name of the One who is infinitely Merciful, may this space be a refuge for hearts seeking sincerity,
               coherence, and quiet return.
             </p>
-            <AtmosphericImage photo={heroPhoto} alt="Quiet environmental image for Ramadan Oasis opening" priority />
+            <PhotoSlider photos={heroSliderPhotos} alt="Quiet environmental image for Ramadan Oasis opening" priority />
           </section>
 
           <PageSection label="Who This Is For" title="A gentle container for sincere seekers">
@@ -74,7 +75,7 @@ export default async function RamadanOasisPage() {
                 ))}
               </div>
             </PageSection>
-            <AtmosphericImage photo={bodyPhoto} alt="Environmental texture beside session structure" />
+            <PhotoSlider photos={bodySliderPhotos} alt="Environmental texture beside session structure" />
           </section>
 
           <PageSection label="Session Map" title="Wednesdays and Saturdays">

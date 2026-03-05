@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { AtmosphericImage } from "@/components/atmospheric-image";
 import { PageSection } from "@/components/page-section";
 import { PaletteProvider } from "@/components/palette-provider";
+import { PhotoSlider } from "@/components/photo-slider";
 import { SiteFrame } from "@/components/site-frame";
 import { siteConfig } from "@/config/site";
-import { getPhotoManifest, pickSectionPhoto } from "@/lib/photos";
+import { getEligiblePhotos, getPhotoManifest, pickSectionPhoto } from "@/lib/photos";
 
 const orientationPoints = [
   "Making invisible dynamics visible",
@@ -34,7 +34,8 @@ const audiencePoints = [
 export default async function HomePage() {
   const photos = await getPhotoManifest();
   const openingPhoto = pickSectionPhoto(photos, "home-opening");
-  const offeringPhoto = pickSectionPhoto(photos, "home-offering");
+  const openingSliderPhotos = getEligiblePhotos(photos, "home-opening-slider");
+  const offeringSliderPhotos = getEligiblePhotos(photos, "home-offering-slider");
 
   return (
     <PaletteProvider imageSrc={openingPhoto?.src}>
@@ -47,8 +48,8 @@ export default async function HomePage() {
             <p className="max-w-4xl font-serif-display text-2xl leading-[1.4] text-[var(--ink)]/90 md:text-3xl">
               {siteConfig.homeStatement}
             </p>
-            <AtmosphericImage
-              photo={openingPhoto}
+            <PhotoSlider
+              photos={openingSliderPhotos}
               alt="Atmospheric visual texture supporting opening presence"
               priority
             />
@@ -130,7 +131,10 @@ export default async function HomePage() {
                   </Link>
                 </div>
               </div>
-              <AtmosphericImage photo={offeringPhoto} alt="Quiet environmental photo accompanying Ramadan Oasis overview" />
+              <PhotoSlider
+                photos={offeringSliderPhotos}
+                alt="Quiet environmental photo accompanying Ramadan Oasis overview"
+              />
             </div>
           </section>
 
