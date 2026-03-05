@@ -1,0 +1,56 @@
+[
+  {
+    "slug": "ramadan-oasis",
+    "title": "Ramadan Oasis",
+    "tagline": "A mercy-first journey for spiritual travelers.",
+    "description": "Nine sessions across mercy, forgiveness, and safety with live support, replays, and guided reflections.",
+    "visibility": "public",
+    "contributionModel": "pay-what-you-can",
+    "contributionTiers": [
+      {
+        "id": "seed",
+        "label": "Seed",
+        "amount": 75,
+        "description": "Accessible contribution to enter the container."
+      },
+      {
+        "id": "sustain",
+        "label": "Sustain",
+        "amount": 150,
+        "description": "Supports your seat and another participant."
+      },
+      {
+        "id": "sponsor",
+        "label": "Sponsor",
+        "amount": 300,
+        "description": "Helps fund scholarship seats and accessibility."
+      }
+    ],
+    "communityEnabled": true,
+    "recordingsEnabled": true
+  },
+  {
+    "slug": "relational-lab",
+    "title": "Relational Lab",
+    "tagline": "Applied relational intelligence in practice.",
+    "description": "A cohort-style lab for participants who want to integrate inner clarity with practical communication and leadership.",
+    "visibility": "private",
+    "contributionModel": "tiered",
+    "contributionTiers": [
+      {
+        "id": "standard",
+        "label": "Standard",
+        "amount": 250,
+        "description": "Core cohort access."
+      },
+      {
+        "id": "sponsored",
+        "label": "Sponsored",
+        "amount": 0,
+        "description": "Scholarship seat with sponsor backing."
+      }
+    ],
+    "communityEnabled": true,
+    "recordingsEnabled": false
+  }
+]

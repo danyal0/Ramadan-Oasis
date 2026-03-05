@@ -1,0 +1,12 @@
+[
+  {
+    "email": "participant@example.com",
+    "offeringSlug": "ramadan-oasis",
+    "role": "participant"
+  },
+  {
+    "email": "admin@example.com",
+    "offeringSlug": "ramadan-oasis",
+    "role": "facilitator"
+  }
+]

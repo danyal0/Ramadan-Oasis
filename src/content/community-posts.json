@@ -1,0 +1,11 @@
+[
+  {
+    "id": "post_1",
+    "offeringSlug": "ramadan-oasis",
+    "authorEmail": "admin@example.com",
+    "authorName": "Facilitator",
+    "type": "discussion",
+    "body": "Welcome to the Ramadan Oasis community feed. Share one reflection from this week and one intention for the next session.",
+    "createdAt": "2026-03-01T12:00:00.000Z"
+  }
+]

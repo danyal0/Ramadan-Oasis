@@ -1,0 +1,20 @@
+[
+  {
+    "id": "rec_1",
+    "offeringSlug": "ramadan-oasis",
+    "title": "Session 1 Replay",
+    "muxPlaybackId": "exampleplaybackid123",
+    "storageKey": "recordings/ramadan-oasis/session-1.mp4",
+    "durationMinutes": 72,
+    "publishedAt": "2026-02-19T08:00:00.000Z"
+  },
+  {
+    "id": "rec_2",
+    "offeringSlug": "ramadan-oasis",
+    "title": "Session 2 Replay",
+    "muxPlaybackId": "exampleplaybackid234",
+    "storageKey": "recordings/ramadan-oasis/session-2.mp4",
+    "durationMinutes": 78,
+    "publishedAt": "2026-02-22T08:00:00.000Z"
+  }
+]

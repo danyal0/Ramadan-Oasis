@@ -14,8 +14,17 @@ export function SiteFrame({ children }: SiteFrameProps) {
           <Link className="hover:text-[var(--ink)] transition-colors duration-700" href="/">
             Home
           </Link>
+          <Link className="hover:text-[var(--ink)] transition-colors duration-700" href="/offerings">
+            Offerings
+          </Link>
           <Link className="hover:text-[var(--ink)] transition-colors duration-700" href="/ramadan-oasis">
             Ramadan Oasis
+          </Link>
+          <Link className="hover:text-[var(--ink)] transition-colors duration-700" href="/community">
+            Community
+          </Link>
+          <Link className="hover:text-[var(--ink)] transition-colors duration-700" href="/recordings">
+            Recordings
           </Link>
           <Link className="hover:text-[var(--ink)] transition-colors duration-700" href="/resources">
             Resources

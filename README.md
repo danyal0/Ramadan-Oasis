@@ -64,28 +64,28 @@ Production-ready Next.js platform for OumNur.com, featuring a refined home exper
 - Toggle `curation.enabled` to `true` and populate `pinnedBySection` arrays with photo paths (e.g. `"/photos/my-image.jpg"`).
 - When curation mode is enabled, pinned images are shown first in your exact order, then remaining eligible images continue in rotation.
 
-## Phase 2 Expansion Blueprint
+## Phase 2 Implementation (MVP)
 
 1. **Multi-offering architecture**
-   - Add route groups like `/offerings/[slug]` and shared offering templates.
-   - Move offering content into a DB (PostgreSQL) or headless CMS.
+   - Implemented dynamic offering routes at `/offerings/[slug]` with shared rendering templates.
+   - Added offering repository abstraction with local JSON (`src/content/offerings.json`) and optional CMS source via `OFFERINGS_CMS_URL`.
 
 2. **Accounts and access control**
-   - Implement auth (Better Auth/Auth.js).
-   - Add participant roles, offering enrollments, and permission checks per offering.
+   - Implemented cookie-based auth APIs: `/api/auth/login`, `/api/auth/logout`, `/api/auth/session`.
+   - Added seeded roles and offering enrollment checks (`src/content/enrollments.json`) used by protected pages and APIs.
 
 3. **Community and engagement**
-   - Add authenticated community feed/discussion and reflections.
-   - Introduce notifications, reminders, and digest emails via background jobs.
+   - Added authenticated community feed at `/community` with discussions/reflections and API endpoints at `/api/community/posts`.
+   - Added background-job seam for reminders/digests at `/api/jobs/digest` (ready for cron/Trigger.dev/Inngest wiring).
 
 4. **Media library and recordings**
-   - Upload recordings to object storage.
-   - Stream through Mux (or equivalent), with gated playback by enrollment.
+   - Added recordings metadata store (`src/content/recordings.json`) with storage keys and Mux playback IDs.
+   - Implemented enrollment-gated recordings UI at `/recordings`.
 
 5. **Commercial flexibility**
-   - Add payment intents + contribution tiers while preserving pay-what-you-can options.
-   - Track scholarships/sponsorships and receipts with auditable transaction logs.
+   - Added contribution tiers to offering models and mock payment-intent API at `/api/payments/intents`.
+   - Added auditable transaction logging in `src/content/transactions.json`, including scholarship and sponsorship fields.
 
 6. **Operational maturity**
-   - Add observability (Sentry + logs), analytics, and admin tooling.
-   - Add integration tests for registration flows and auth-protected routes.
+   - Added structured logging/error capture utilities (`src/lib/observability.ts`) and analytics ingestion endpoint (`/api/analytics/track`).
+   - Added admin operations page (`/admin/operations`) and integration tests for registration and auth-protected routes (`tests/integration`).
