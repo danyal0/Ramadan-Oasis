@@ -31,20 +31,22 @@ export function SiteFrame({ children }: SiteFrameProps) {
         </div>
 
         <details className="mt-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] md:hidden">
-          <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 [&::-webkit-details-marker]:hidden">
-            <span className="text-xs uppercase tracking-[0.16em]">Menu</span>
-            <span aria-hidden="true" className="flex flex-col gap-1.5">
-              <span className="block h-px w-5 bg-[var(--muted)]" />
-              <span className="block h-px w-5 bg-[var(--muted)]" />
-              <span className="block h-px w-5 bg-[var(--muted)]" />
+          <summary className="flex cursor-pointer list-none items-center justify-end px-4 py-3 [&::-webkit-details-marker]:hidden">
+            <span
+              aria-hidden="true"
+              className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 rounded-full border border-[var(--border)]"
+            >
+              <span className="block h-px w-4 bg-[var(--muted)]" />
+              <span className="block h-px w-4 bg-[var(--muted)]" />
+              <span className="block h-px w-4 bg-[var(--muted)]" />
             </span>
           </summary>
-          <nav className="grid grid-cols-2 gap-2 px-3 pb-3 pt-1 text-xs">
+          <nav className="grid grid-cols-1 gap-2 px-3 pb-3 pt-1 text-sm">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-center transition-colors duration-700 hover:text-[var(--ink)]"
+                className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-left transition-colors duration-700 hover:text-[var(--ink)]"
               >
                 {item.label}
               </Link>
