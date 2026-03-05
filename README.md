@@ -38,20 +38,31 @@ Production-ready Next.js platform for OumNur.com, featuring a refined home exper
 - Home page with narrative sections and restrained motion design
 - Dedicated `/ramadan-oasis` page built as a journey, not a sales funnel
 - Dynamic photo manifest from `public/photos` with landscape-first selection heuristics
+- Deterministic curation mode that pins approved images per section
 - Dynamic semantic color palette generated from selected section imagery
 - Mobile-first responsive typography and spacing system
 - Secure registration endpoint with server-side validation and extensible provider seam
-- Placeholder expansion routes: `/resources`, `/recordings`, `/login`, `/offerings`
+- Implemented routes: `/resources`, `/recordings`, `/login`, `/offerings`
+- Lightweight content admin at `/admin/content` for JSON editing without code changes
 
 ## Extensibility Notes
 
 - Upload photos into `public/photos` (any nested structure, random filenames supported).
 - `src/lib/photos.ts` handles image discovery, orientation scoring, and section-level selection.
+- Copy and editable datasets are stored in `src/content/site-content.json`.
+- Admin editing is exposed via `src/app/api/admin/content/route.ts` and `/admin/content`.
 - `src/lib/palette.ts` + `src/components/palette-provider.tsx` provide dynamic, accessible design tokens based on image sampling.
 - `src/config/site.ts` centralizes editable brand/offering content and schedule/outline data.
 - `src/lib/registration.ts` isolates orchestration logic so providers can be replaced without changing UI.
 - `src/app/api/register/route.ts` enforces schema validation and clean error handling for secure form processing.
 - Additional offerings can be represented as data models in a future DB/CMS and mapped to reusable page components.
+
+## Content Editing and Curation
+
+- Set `ADMIN_EDIT_TOKEN` in `.env.local`.
+- Visit `/admin/content`, load content, edit JSON, and save.
+- Toggle `curation.enabled` to `true` and populate `pinnedBySection` arrays with photo paths (e.g. `"/photos/my-image.jpg"`).
+- When curation mode is enabled, pinned images are shown first in your exact order, then remaining eligible images continue in rotation.
 
 ## Phase 2 Expansion Blueprint
 

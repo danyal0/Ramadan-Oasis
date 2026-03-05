@@ -4,43 +4,24 @@ import { PaletteProvider } from "@/components/palette-provider";
 import { PhotoSlider } from "@/components/photo-slider";
 import { SiteFrame } from "@/components/site-frame";
 import { siteConfig } from "@/config/site";
+import { getSiteContent } from "@/lib/content";
 import { getEligiblePhotos, getPhotoManifest, pickSectionPhoto } from "@/lib/photos";
 
-const orientationPoints = [
-  "Making invisible dynamics visible",
-  "Restoring conditions for conscious action",
-];
-
-const supportPoints = [
-  "alignment without coercion",
-  "engagement without manipulation",
-  "certainty without rigidity",
-];
-
-const experiencePoints = [
-  "Reflection",
-  "Language that restores orientation",
-  "Contemplative inquiry",
-  "Practices and exercises",
-];
-
-const audiencePoints = [
-  "Thoughtful leaders",
-  "Spiritual seekers without dogma",
-  "People navigating complexity",
-  "Those seeking lived alignment",
-];
-
 export default async function HomePage() {
+  const content = await getSiteContent();
   const photos = await getPhotoManifest();
   const openingPhoto = pickSectionPhoto(photos, "home-opening");
   const openingSliderPhotos = getEligiblePhotos(photos, "home-opening-slider", {
     targetAspectRatio: 16 / 9,
     subjectPreference: ["nature", "sky", "water", "texture"],
+    pinnedSources: content.curation.pinnedBySection["home-opening-slider"] ?? [],
+    curationMode: content.curation.enabled,
   });
   const offeringSliderPhotos = getEligiblePhotos(photos, "home-offering-slider", {
     targetAspectRatio: 4 / 3,
     subjectPreference: ["architecture", "nature", "texture"],
+    pinnedSources: content.curation.pinnedBySection["home-offering-slider"] ?? [],
+    curationMode: content.curation.enabled,
   });
 
   return (
@@ -75,13 +56,13 @@ export default async function HomePage() {
 
           <PageSection id="orientation" label="My Orientation" title="A philosophical and practical anchor">
             <ul className="space-y-2">
-              {orientationPoints.map((point) => (
+              {content.home.orientationPoints.map((point) => (
                 <li key={point}>- {point}</li>
               ))}
             </ul>
             <p>Supporting:</p>
             <ul className="space-y-2">
-              {supportPoints.map((point) => (
+              {content.home.supportPoints.map((point) => (
                 <li key={point}>- {point}</li>
               ))}
             </ul>
@@ -89,7 +70,7 @@ export default async function HomePage() {
 
           <PageSection id="experienced" label="How This Work Is Experienced" title="Recognition over instruction">
             <ul className="space-y-2">
-              {experiencePoints.map((point) => (
+              {content.home.experiencePoints.map((point) => (
                 <li key={point}>- {point}</li>
               ))}
             </ul>
@@ -98,7 +79,7 @@ export default async function HomePage() {
 
           <PageSection id="resonates" label="Who This Resonates With" title="A mirror, not a filter">
             <ul className="space-y-2">
-              {audiencePoints.map((point) => (
+              {content.home.audiencePoints.map((point) => (
                 <li key={point}>- {point}</li>
               ))}
             </ul>
@@ -113,14 +94,12 @@ export default async function HomePage() {
                 <p className="text-xs uppercase tracking-[0.2em] text-[var(--muted)]">Current Offering — Ramadan Oasis</p>
                 <h2 className="font-serif-display text-3xl leading-[1.2] md:text-5xl">Mercy-first Quranic companionship</h2>
                 <p className="text-[1.04rem] leading-[1.9] text-[var(--ink)]/92">
-                  A sacred energetic container that is Qur&apos;an-centered, mercy-first, and nervous-system aware.
-                  Designed for safety, coherence, presence, and integration.
+                  {content.home.offeringSummary}
                 </p>
                 <div className="grid gap-2 text-[var(--muted)]">
-                  <p>Feb 18 – March 20</p>
-                  <p>Wednesdays & Saturdays</p>
-                  <p>9 sessions</p>
-                  <p>Three arcs: Mercy, Forgiveness, Safety</p>
+                  {content.home.offeringMeta.map((item) => (
+                    <p key={item}>{item}</p>
+                  ))}
                 </div>
                 <div className="flex flex-wrap gap-3 pt-1">
                   <Link
@@ -150,7 +129,7 @@ export default async function HomePage() {
               <p className="text-[1.02rem] text-[var(--ink)]/90">
                 Instagram <Link href={siteConfig.social.instagram} className="underline decoration-[var(--border)]">@oumnur786</Link>
               </p>
-              <p className="text-sm text-[var(--muted)]">14.8k views in the last 30 days, with 221% growth</p>
+              <p className="text-sm text-[var(--muted)]">{content.home.credibilityLine}</p>
             </div>
           </section>
         </main>

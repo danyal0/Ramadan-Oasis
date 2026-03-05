@@ -9,6 +9,8 @@ const envSchema = z.object({
   DISCORD_INVITE_URL: z.string().url().optional(),
   ZOOM_EVENT_ID: z.string().optional(),
   PAYMENTS_URL: z.string().url().optional(),
+  CONTENT_CMS_URL: z.string().url().optional(),
+  ADMIN_EDIT_TOKEN: z.string().min(10).optional(),
 });
 
 export const env = envSchema.parse({
@@ -20,4 +22,6 @@ export const env = envSchema.parse({
   DISCORD_INVITE_URL: process.env.DISCORD_INVITE_URL,
   ZOOM_EVENT_ID: process.env.ZOOM_EVENT_ID,
   PAYMENTS_URL: process.env.PAYMENTS_URL,
+  CONTENT_CMS_URL: process.env.CONTENT_CMS_URL,
+  ADMIN_EDIT_TOKEN: process.env.ADMIN_EDIT_TOKEN,
 });

@@ -30,6 +30,8 @@ export type PhotoAsset = {
 type EligibleOptions = {
   targetAspectRatio?: number;
   subjectPreference?: SubjectTag[];
+  pinnedSources?: string[];
+  curationMode?: boolean;
 };
 
 async function listFilesRecursively(dir: string): Promise<string[]> {
@@ -145,8 +147,16 @@ export function getEligiblePhotos(
   const random = seededRandom(createSeed(key));
   const targetAspectRatio = options.targetAspectRatio ?? 16 / 9;
   const subjectPreference = options.subjectPreference ?? [];
+  const pinnedSources = options.pinnedSources ?? [];
+  const curationMode = options.curationMode ?? false;
 
-  return photos
+  const pinned = pinnedSources
+    .map((src) => photos.find((photo) => photo.src === src))
+    .filter(Boolean) as PhotoAsset[];
+  const pinnedSet = new Set(pinned.map((photo) => photo.src));
+  const pool = photos.filter((photo) => !pinnedSet.has(photo.src));
+
+  const ranked = pool
     .map((photo) => ({
       photo,
       score:
@@ -157,6 +167,12 @@ export function getEligiblePhotos(
     }))
     .sort((a, b) => b.score - a.score)
     .map((entry) => entry.photo);
+
+  if (curationMode && pinned.length) {
+    return [...pinned, ...ranked];
+  }
+
+  return ranked;
 }
 
 export function pickSectionPhoto(photos: PhotoAsset[], sectionKey: string): PhotoAsset | null {

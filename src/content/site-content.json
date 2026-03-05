@@ -1,0 +1,81 @@
+{
+  "home": {
+    "orientationPoints": [
+      "Making invisible dynamics visible",
+      "Restoring conditions for conscious action"
+    ],
+    "supportPoints": [
+      "alignment without coercion",
+      "engagement without manipulation",
+      "certainty without rigidity"
+    ],
+    "experiencePoints": [
+      "Reflection",
+      "Language that restores orientation",
+      "Contemplative inquiry",
+      "Practices and exercises"
+    ],
+    "audiencePoints": [
+      "Thoughtful leaders",
+      "Spiritual seekers without dogma",
+      "People navigating complexity",
+      "Those seeking lived alignment"
+    ],
+    "offeringSummary": "A sacred energetic container that is Qur'an-centered, mercy-first, and nervous-system aware. Designed for safety, coherence, presence, and integration.",
+    "offeringMeta": [
+      "Feb 18 - March 20",
+      "Wednesdays & Saturdays",
+      "9 sessions",
+      "Three arcs: Mercy, Forgiveness, Safety"
+    ],
+    "credibilityLine": "14.8k views in the last 30 days, with 221% growth"
+  },
+  "ramadanOasis": {
+    "invocation": "In the name of the One who is infinitely Merciful, may this space be a refuge for hearts seeking sincerity, coherence, and quiet return.",
+    "whoItsFor": [
+      "Those seeking a spiritually reverent space without pressure or performance.",
+      "People longing for Qur'an-centered companionship rooted in mercy.",
+      "Participants moving through personal transition, grief, complexity, or reorientation."
+    ],
+    "experiences": [
+      "Live circles that allow listening, reflection, and integrative dialogue.",
+      "Nervous-system aware pacing that supports safety before transformation.",
+      "Practices for coherence between inner life, relationships, and daily action."
+    ],
+    "outcomes": [
+      "A steadier relationship with sacred text and inner perception.",
+      "Greater language for what is subtle, tender, and difficult to name.",
+      "A felt sense of belonging, responsibility, and spiritual integration."
+    ]
+  },
+  "resources": {
+    "title": "Resources",
+    "description": "A curated library of reflections, study materials, and integrative practices.",
+    "items": [
+      {
+        "title": "Orientation Notes",
+        "description": "Short written guides for restoring clarity before action.",
+        "href": "#"
+      },
+      {
+        "title": "Reflection Prompts",
+        "description": "Gentle inquiry prompts for personal and relational discernment.",
+        "href": "#"
+      },
+      {
+        "title": "Practice Sheets",
+        "description": "Simple practices supporting coherence, regulation, and integration.",
+        "href": "#"
+      }
+    ]
+  },
+  "curation": {
+    "enabled": false,
+    "pinnedBySection": {
+      "home-opening-slider": [],
+      "home-offering-slider": [],
+      "ramadan-hero-slider": [],
+      "ramadan-body-slider": []
+    }
+  }
+}

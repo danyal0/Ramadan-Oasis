@@ -28,6 +28,7 @@ export function SiteFrame({ children }: SiteFrameProps) {
       {children}
       <footer className="mt-20 border-t border-[var(--border)] pt-6 text-sm text-[var(--muted)]">
         <p>Antonia Alberte — Relational Intelligence Advisor</p>
+        <p className="mt-1">Copyright 2026 OumNur. All rights reserved.</p>
       </footer>
     </div>
   );

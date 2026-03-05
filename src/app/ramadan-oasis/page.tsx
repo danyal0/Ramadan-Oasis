@@ -4,36 +4,24 @@ import { PhotoSlider } from "@/components/photo-slider";
 import { RegistrationForm } from "@/components/registration-form";
 import { SiteFrame } from "@/components/site-frame";
 import { programOutline, ramadanSchedule } from "@/config/site";
+import { getSiteContent } from "@/lib/content";
 import { getEligiblePhotos, getPhotoManifest, pickSectionPhoto } from "@/lib/photos";
 
-const whoItsFor = [
-  "Those seeking a spiritually reverent space without pressure or performance.",
-  "People longing for Qur'an-centered companionship rooted in mercy.",
-  "Participants moving through personal transition, grief, complexity, or reorientation.",
-];
-
-const experiences = [
-  "Live circles that allow listening, reflection, and integrative dialogue.",
-  "Nervous-system aware pacing that supports safety before transformation.",
-  "Practices for coherence between inner life, relationships, and daily action.",
-];
-
-const outcomes = [
-  "A steadier relationship with sacred text and inner perception.",
-  "Greater language for what is subtle, tender, and difficult to name.",
-  "A felt sense of belonging, responsibility, and spiritual integration.",
-];
-
 export default async function RamadanOasisPage() {
+  const content = await getSiteContent();
   const photos = await getPhotoManifest();
   const heroPhoto = pickSectionPhoto(photos, "ramadan-hero");
   const heroSliderPhotos = getEligiblePhotos(photos, "ramadan-hero-slider", {
     targetAspectRatio: 16 / 9,
     subjectPreference: ["sky", "nature", "water", "texture"],
+    pinnedSources: content.curation.pinnedBySection["ramadan-hero-slider"] ?? [],
+    curationMode: content.curation.enabled,
   });
   const bodySliderPhotos = getEligiblePhotos(photos, "ramadan-body-slider", {
     targetAspectRatio: 4 / 3,
     subjectPreference: ["architecture", "texture", "nature"],
+    pinnedSources: content.curation.pinnedBySection["ramadan-body-slider"] ?? [],
+    curationMode: content.curation.enabled,
   });
 
   return (
@@ -44,15 +32,14 @@ export default async function RamadanOasisPage() {
             <p className="text-xs uppercase tracking-[0.2em] text-[var(--muted)]">Ramadan Oasis</p>
             <h1 className="font-serif-display text-4xl leading-[1.15] md:text-6xl">A journey page for spiritual travelers</h1>
             <p className="max-w-4xl text-[1.08rem] leading-[1.9] text-[var(--ink)]/90 md:text-[1.15rem]">
-              In the name of the One who is infinitely Merciful, may this space be a refuge for hearts seeking sincerity,
-              coherence, and quiet return.
+              {content.ramadanOasis.invocation}
             </p>
             <PhotoSlider photos={heroSliderPhotos} alt="Quiet environmental image for Ramadan Oasis opening" priority />
           </section>
 
           <PageSection label="Who This Is For" title="A gentle container for sincere seekers">
             <ul className="space-y-2">
-              {whoItsFor.map((item) => (
+              {content.ramadanOasis.whoItsFor.map((item) => (
                 <li key={item}>- {item}</li>
               ))}
             </ul>
@@ -60,7 +47,7 @@ export default async function RamadanOasisPage() {
 
           <PageSection label="What You'll Experience" title="Mercy-first companionship and clear inner orientation">
             <ul className="space-y-2">
-              {experiences.map((item) => (
+              {content.ramadanOasis.experiences.map((item) => (
                 <li key={item}>- {item}</li>
               ))}
             </ul>
@@ -115,7 +102,7 @@ export default async function RamadanOasisPage() {
 
           <PageSection label="What Participants Leave With" title="Safety, coherence, and lived integration">
             <ul className="space-y-2">
-              {outcomes.map((item) => (
+              {content.ramadanOasis.outcomes.map((item) => (
                 <li key={item}>- {item}</li>
               ))}
             </ul>
