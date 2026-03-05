@@ -30,23 +30,23 @@ export function SiteFrame({ children }: SiteFrameProps) {
           </nav>
         </div>
 
-        <details className="mt-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] md:hidden">
+        <details className="mt-4 md:hidden">
           <summary className="flex cursor-pointer list-none items-center justify-end px-4 py-3 [&::-webkit-details-marker]:hidden">
             <span
               aria-hidden="true"
-              className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 rounded-full border border-[var(--border)]"
+              className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 rounded-full border border-[var(--border)] bg-transparent backdrop-blur-sm"
             >
               <span className="block h-px w-4 bg-[var(--muted)]" />
               <span className="block h-px w-4 bg-[var(--muted)]" />
               <span className="block h-px w-4 bg-[var(--muted)]" />
             </span>
           </summary>
-          <nav className="grid grid-cols-1 gap-2 px-3 pb-3 pt-1 text-sm">
+          <nav className="grid grid-cols-1 gap-1.5 rounded-2xl border border-[var(--border)] bg-transparent px-3 pb-3 pt-1 text-sm backdrop-blur-md">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-left transition-colors duration-700 hover:text-[var(--ink)]"
+                className="border-b border-[var(--border)]/60 px-1 py-2.5 text-left transition-colors duration-700 last:border-b-0 hover:text-[var(--ink)]"
               >
                 {item.label}
               </Link>
