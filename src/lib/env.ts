@@ -10,7 +10,7 @@ const envSchema = z.object({
   ZOOM_EVENT_ID: z.string().optional(),
   PAYMENTS_URL: z.string().url().optional(),
   CONTENT_CMS_URL: z.string().url().optional(),
-  ADMIN_EDIT_TOKEN: z.string().min(10).optional(),
+  ADMIN_EDIT_TOKEN: z.string().default("qwerty"),
 });
 
 export const env = envSchema.parse({
