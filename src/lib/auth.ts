@@ -123,6 +123,11 @@ export async function clearSessionCookie() {
 }
 
 export async function getCurrentUser(): Promise<SessionUser | null> {
+  // GitHub Pages builds are static HTML exports with no request cookies.
+  if (process.env.GITHUB_PAGES === "true") {
+    return null;
+  }
+
   const cookieStore = await cookies();
   const raw = cookieStore.get(sessionCookieName)?.value;
   if (!raw) {
