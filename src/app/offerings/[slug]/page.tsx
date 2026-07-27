@@ -3,7 +3,12 @@ import { OfferingTemplate } from "@/components/offering-template";
 import { PaletteProvider } from "@/components/palette-provider";
 import { SiteFrame } from "@/components/site-frame";
 import { getCurrentUser, hasOfferingAccess } from "@/lib/auth";
-import { getOfferingBySlug } from "@/lib/offerings";
+import { getOfferingBySlug, getOfferings } from "@/lib/offerings";
+
+export async function generateStaticParams() {
+  const offerings = await getOfferings();
+  return offerings.map((offering) => ({ slug: offering.slug }));
+}
 
 type OfferingRouteProps = {
   params: Promise<{ slug: string }>;
